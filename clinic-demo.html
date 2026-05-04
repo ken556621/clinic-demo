@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>仁和中醫診所 — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-dark: #1E3D1A;
+    --green-mid: #2D5A27;
+    --green-light: #4A7C42;
+    --gold: #A07C3A;
+    --gold-light: #C9A265;
+    --cream: #F7F4EE;
+    --cream-dark: #EDE8DC;
+    --text-dark: #1A1A1A;
+    --text-mid: #444;
+    --text-light: #777;
+    --white: #FFFFFF;
+    --radius: 8px;
+    --radius-lg: 16px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    color: var(--text-dark);
+    background: var(--white);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(30, 61, 26, 0.96);
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--gold-light); letter-spacing: 2px;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.85); text-decoration: none;
+    font-size: 14px; font-weight: 400; letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+  .nav-cta {
+    background: var(--gold); color: white !important;
+    padding: 8px 20px; border-radius: 40px;
+    font-weight: 500 !important;
+  }
+  .nav-cta:hover { background: var(--gold-light) !important; color: var(--green-dark) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 60%, #3d6b35 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 5vw 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(160,124,58,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255,255,255,0.04) 0%, transparent 40%);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(160,124,58,0.2); border: 1px solid rgba(201,162,101,0.4);
+    color: var(--gold-light); font-size: 13px; letter-spacing: 3px;
+    padding: 6px 20px; border-radius: 40px; margin-bottom: 32px;
+    font-weight: 400;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(40px, 7vw, 72px); font-weight: 700;
+    color: white; line-height: 1.2; letter-spacing: 4px;
+    margin-bottom: 8px;
+  }
+  .hero h1 span { color: var(--gold-light); }
+  .hero-sub {
+    font-size: clamp(14px, 2vw, 18px);
+    color: rgba(255,255,255,0.65); letter-spacing: 2px;
+    margin-bottom: 40px;
+  }
+  .hero-desc {
+    max-width: 520px; font-size: 15px;
+    color: rgba(255,255,255,0.75); line-height: 1.8;
+    margin-bottom: 48px;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .btn-primary {
+    background: var(--gold); color: white;
+    padding: 14px 36px; border-radius: 40px;
+    font-size: 15px; font-weight: 500; text-decoration: none;
+    letter-spacing: 1px; transition: all 0.25s;
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--gold-light); color: var(--green-dark); transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent; color: rgba(255,255,255,0.85);
+    padding: 14px 36px; border-radius: 40px;
+    font-size: 15px; font-weight: 400; text-decoration: none;
+    letter-spacing: 1px; transition: all 0.25s;
+    border: 1px solid rgba(255,255,255,0.3); cursor: pointer;
+  }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.6); color: white; }
+  .hero-stats {
+    display: flex; gap: 48px; margin-top: 72px;
+    border-top: 1px solid rgba(255,255,255,0.12); padding-top: 40px;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat-num {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 32px; font-weight: 700;
+    color: var(--gold-light); display: block;
+  }
+  .hero-stat-label { font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 1px; }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 96px 5vw; }
+  .section-label {
+    font-size: 12px; letter-spacing: 4px; font-weight: 500;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(28px, 4vw, 40px); font-weight: 700;
+    color: var(--green-dark); line-height: 1.3; margin-bottom: 16px;
+  }
+  .section-desc { font-size: 15px; color: var(--text-mid); max-width: 560px; line-height: 1.8; }
+
+  /* ── ABOUT ── */
+  .about { background: var(--cream); }
+  .about-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .about-visual {
+    background: var(--green-dark);
+    border-radius: var(--radius-lg); padding: 48px 40px;
+    display: flex; flex-direction: column; gap: 28px;
+  }
+  .about-visual-item { display: flex; align-items: flex-start; gap: 16px; }
+  .about-icon {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(160,124,58,0.2); border: 1px solid rgba(201,162,101,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .about-visual-text h4 {
+    color: var(--gold-light); font-size: 14px; font-weight: 500;
+    margin-bottom: 4px; letter-spacing: 0.5px;
+  }
+  .about-visual-text p { color: rgba(255,255,255,0.65); font-size: 13px; line-height: 1.6; }
+  .about-content .section-desc { margin-bottom: 32px; }
+  .about-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .about-list li {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 14px; color: var(--text-mid);
+  }
+  .about-list li::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold); flex-shrink: 0;
+  }
+
+  /* ── SERVICES ── */
+  .services { background: white; }
+  .services-inner { max-width: 1100px; margin: 0 auto; }
+  .services-header { text-align: center; margin-bottom: 60px; }
+  .services-header .section-desc { margin: 0 auto; }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px;
+  }
+  .service-card {
+    border: 1px solid #E8E2D8; border-radius: var(--radius-lg);
+    padding: 36px 28px; transition: all 0.3s; background: white;
+    cursor: default;
+  }
+  .service-card:hover {
+    border-color: var(--gold-light); transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(45,90,39,0.1);
+  }
+  .service-icon {
+    width: 56px; height: 56px; border-radius: 12px;
+    background: var(--cream); display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin-bottom: 20px;
+  }
+  .service-card h3 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 18px; font-weight: 700; color: var(--green-dark);
+    margin-bottom: 10px;
+  }
+  .service-card p { font-size: 13px; color: var(--text-light); line-height: 1.7; margin-bottom: 16px; }
+  .service-tag {
+    display: inline-block; font-size: 11px; letter-spacing: 1px;
+    background: var(--cream); color: var(--gold); padding: 4px 12px; border-radius: 20px;
+  }
+
+  /* ── DOCTORS ── */
+  .doctors { background: var(--cream); }
+  .doctors-inner { max-width: 1100px; margin: 0 auto; }
+  .doctors-header { margin-bottom: 48px; }
+  .doctors-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; }
+  .doctor-card {
+    background: white; border-radius: var(--radius-lg);
+    border: 1px solid #E8E2D8; overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+  .doctor-card:hover { box-shadow: 0 8px 28px rgba(45,90,39,0.12); }
+  .doctor-top {
+    background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+    padding: 36px 28px; display: flex; align-items: center; gap: 20px;
+  }
+  .doctor-avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: rgba(255,255,255,0.15); border: 2px solid rgba(201,162,101,0.5);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif TC', serif; font-size: 22px; color: var(--gold-light); font-weight: 700;
+    flex-shrink: 0;
+  }
+  .doctor-top-info h3 {
+    font-family: 'Noto Serif TC', serif; font-size: 20px; font-weight: 700;
+    color: white; margin-bottom: 4px;
+  }
+  .doctor-top-info span { font-size: 12px; color: rgba(255,255,255,0.65); letter-spacing: 1px; }
+  .doctor-body { padding: 24px 28px; }
+  .doctor-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .doctor-tag {
+    font-size: 12px; background: var(--cream); color: var(--green-mid);
+    padding: 4px 12px; border-radius: 20px; border: 1px solid #ddd8cc;
+  }
+  .doctor-body p { font-size: 13px; color: var(--text-light); line-height: 1.7; }
+  .doctor-hours {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 16px; font-size: 12px; color: var(--gold);
+    padding-top: 16px; border-top: 1px solid #f0ece4;
+  }
+
+  /* ── BOOKING FORM ── */
+  .booking { background: var(--green-dark); }
+  .booking-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start;
+  }
+  .booking-info .section-label { color: var(--gold-light); }
+  .booking-info .section-title { color: white; }
+  .booking-info .section-desc { color: rgba(255,255,255,0.6); margin-bottom: 40px; }
+  .booking-feature { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 24px; }
+  .booking-feature-icon {
+    width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0;
+    background: rgba(160,124,58,0.2); border: 1px solid rgba(201,162,101,0.2);
+    display: flex; align-items: center; justify-content: center; font-size: 16px;
+  }
+  .booking-feature-text h4 { color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+  .booking-feature-text p { color: rgba(255,255,255,0.45); font-size: 12px; }
+  .booking-form-wrap {
+    background: white; border-radius: var(--radius-lg); padding: 40px;
+  }
+  .booking-form-wrap h3 {
+    font-family: 'Noto Serif TC', serif; font-size: 22px; font-weight: 700;
+    color: var(--green-dark); margin-bottom: 28px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block; font-size: 13px; font-weight: 500;
+    color: var(--text-mid); margin-bottom: 6px;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%; padding: 10px 14px;
+    border: 1.5px solid #E0DAD0; border-radius: var(--radius);
+    font-size: 14px; font-family: 'Noto Sans TC', sans-serif;
+    color: var(--text-dark); background: white;
+    transition: border-color 0.2s; outline: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--green-mid); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .form-submit {
+    width: 100%; padding: 14px;
+    background: var(--green-mid); color: white;
+    border: none; border-radius: var(--radius); cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif; font-size: 15px; font-weight: 500;
+    letter-spacing: 1px; transition: background 0.2s; margin-top: 8px;
+  }
+  .form-submit:hover { background: var(--green-dark); }
+  .form-note {
+    text-align: center; font-size: 12px; color: var(--text-light);
+    margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .line-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #00B900; display: inline-block;
+  }
+
+  /* ── HOURS / LOCATION ── */
+  .info-section { background: var(--cream); }
+  .info-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  }
+  .hours-title, .location-title {
+    font-family: 'Noto Serif TC', serif; font-size: 22px; font-weight: 700;
+    color: var(--green-dark); margin-bottom: 24px;
+  }
+  .hours-table { width: 100%; border-collapse: collapse; }
+  .hours-table tr { border-bottom: 1px solid #E0DAD0; }
+  .hours-table tr:last-child { border-bottom: none; }
+  .hours-table td { padding: 10px 0; font-size: 14px; color: var(--text-mid); }
+  .hours-table td:last-child { text-align: right; font-weight: 500; color: var(--green-mid); }
+  .hours-table .closed { color: #bbb !important; }
+  .location-info { display: flex; flex-direction: column; gap: 16px; }
+  .location-row { display: flex; gap: 12px; align-items: flex-start; }
+  .loc-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+  .loc-text { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+  .loc-text strong { color: var(--text-dark); display: block; font-size: 13px; margin-bottom: 2px; }
+  .map-placeholder {
+    margin-top: 20px; height: 180px; background: #d8e8d4;
+    border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;
+    color: var(--green-mid); font-size: 13px; border: 1px solid #c5d8c0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--green-dark); color: rgba(255,255,255,0.5);
+    padding: 40px 5vw; text-align: center;
+  }
+  footer p { font-size: 13px; line-height: 2; }
+  footer strong { color: var(--gold-light); font-weight: 500; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 32px; right: 32px; z-index: 9999;
+    background: #1A1A1A; color: white;
+    padding: 14px 20px; border-radius: var(--radius-lg);
+    font-size: 13px; display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    transform: translateY(80px); opacity: 0;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 320px;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast-icon {
+    width: 32px; height: 32px; background: #00B900; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px;
+  }
+  .toast strong { color: white; font-size: 13px; display: block; margin-bottom: 2px; }
+  .toast span { color: rgba(255,255,255,0.6); font-size: 12px; }
+
+  /* ── DEMO BADGE ── */
+  .demo-badge {
+    position: fixed; top: 72px; right: 16px; z-index: 99;
+    background: rgba(160,124,58,0.9); color: white;
+    font-size: 11px; letter-spacing: 1px; padding: 4px 12px; border-radius: 20px;
+    backdrop-filter: blur(4px);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .about-inner, .booking-inner, .info-inner { grid-template-columns: 1fr; gap: 40px; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-stats { gap: 28px; }
+    .booking-form-wrap { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-badge">DEMO 版本</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">仁和中醫診所</a>
+  <ul class="nav-links">
+    <li><a href="#about">關於我們</a></li>
+    <li><a href="#services">診療項目</a></li>
+    <li><a href="#doctors">醫師團隊</a></li>
+    <li><a href="#booking" class="nav-cta">線上掛號</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-badge">台北市中醫診所 · 二十年信賴</div>
+  <h1>仁和<span>中醫</span>診所</h1>
+  <p class="hero-sub">傳承古法．融合現代．守護全家健康</p>
+  <p class="hero-desc">以中醫整體觀為根本，針灸、推拿、中藥三管齊下，為每位患者量身打造調理計畫，從根本調整體質，讓您感受真正的舒適與平衡。</p>
+  <div class="hero-btns">
+    <a href="#booking" class="btn-primary">立即線上掛號</a>
+    <a href="#services" class="btn-outline">了解診療項目</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-num">20+</span>
+      <span class="hero-stat-label">年執業經驗</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">5,000+</span>
+      <span class="hero-stat-label">服務患者</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">98%</span>
+      <span class="hero-stat-label">患者滿意度</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-visual">
+      <div class="about-visual-item">
+        <div class="about-icon">🌿</div>
+        <div class="about-visual-text">
+          <h4>傳統中醫思維</h4>
+          <p>以陰陽五行、臟腑經絡為基礎，從整體觀點診斷與調理，而非頭痛醫頭、腳痛醫腳。</p>
+        </div>
+      </div>
+      <div class="about-visual-item">
+        <div class="about-icon">⚗️</div>
+        <div class="about-visual-text">
+          <h4>嚴選台灣在地藥材</h4>
+          <p>與信譽藥商長期合作，全程追溯藥材來源，確保安全有效，品質有保障。</p>
+        </div>
+      </div>
+      <div class="about-visual-item">
+        <div class="about-icon">📲</div>
+        <div class="about-visual-text">
+          <h4>LINE 即時掛號通知</h4>
+          <p>掛號成功後自動發送 LINE 通知確認，候診提醒準時推播，不再擔心錯過看診時間。</p>
+        </div>
+      </div>
+    </div>
+    <div class="about-content">
+      <p class="section-label">關於我們</p>
+      <h2 class="section-title">守護台北<br>二十年的老字號</h2>
+      <p class="section-desc">仁和中醫診所於民國九十三年創立，二十年來始終以患者為中心，結合傳統中醫精髓與現代醫學知識，為大台北地區民眾提供全方位的中醫診療服務。</p>
+      <ul class="about-list">
+        <li>衛福部合格中醫師，資歷深厚</li>
+        <li>周一至周六看診，下午及晚間門診</li>
+        <li>首診完整諮詢 30 分鐘</li>
+        <li>調理方案定期追蹤與調整</li>
+        <li>線上掛號、LINE 候診通知服務</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-inner">
+    <div class="services-header">
+      <p class="section-label">診療項目</p>
+      <h2 class="section-title">專業診療，全面調理</h2>
+      <p class="section-desc">結合針灸、推拿、中藥三大核心療法，針對不同體質與症狀，提供個人化的治療方案。</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🪡</div>
+        <h3>針灸治療</h3>
+        <p>透過刺激特定穴位，調節氣血運行，改善疼痛、睡眠、免疫力，適合各種慢性症狀。</p>
+        <span class="service-tag">疼痛 · 睡眠 · 免疫</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🤲</div>
+        <h3>推拿整復</h3>
+        <p>針對筋骨痠痛、肩頸緊繃、脊椎問題，以手法整復恢復正確排列，舒緩肌肉張力。</p>
+        <span class="service-tag">筋骨 · 肩頸 · 脊椎</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🌱</div>
+        <h3>中藥調理</h3>
+        <p>依體質辨證開方，嚴選道地藥材，調理氣血陰陽，改善慢性疲勞、消化、婦科等問題。</p>
+        <span class="service-tag">體質 · 婦科 · 消化</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">✨</div>
+        <h3>美容針灸</h3>
+        <p>透過臉部穴位刺激促進循環，改善細紋、膚色暗沉、眼袋浮腫，由內而外展現自然光澤。</p>
+        <span class="service-tag">緊緻 · 光澤 · 循環</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCTORS -->
+<section class="doctors" id="doctors">
+  <div class="doctors-inner">
+    <div class="doctors-header">
+      <p class="section-label">醫師團隊</p>
+      <h2 class="section-title">值得信賴的專業團隊</h2>
+    </div>
+    <div class="doctors-grid">
+      <div class="doctor-card">
+        <div class="doctor-top">
+          <div class="doctor-avatar">陳</div>
+          <div class="doctor-top-info">
+            <h3>陳建宏 醫師</h3>
+            <span>院長 · 中醫內科專科</span>
+          </div>
+        </div>
+        <div class="doctor-body">
+          <div class="doctor-tags">
+            <span class="doctor-tag">針灸</span>
+            <span class="doctor-tag">慢性病調理</span>
+            <span class="doctor-tag">體質調整</span>
+          </div>
+          <p>台灣中醫大學畢業，執業逾二十年，專長慢性病體質調理與針灸治療，深受老患者信賴。</p>
+          <div class="doctor-hours">🕐 周一、三、五 下午及晚診</div>
+        </div>
+      </div>
+      <div class="doctor-card">
+        <div class="doctor-top">
+          <div class="doctor-avatar">林</div>
+          <div class="doctor-top-info">
+            <h3>林雅婷 醫師</h3>
+            <span>主治醫師 · 婦科調理</span>
+          </div>
+        </div>
+        <div class="doctor-body">
+          <div class="doctor-tags">
+            <span class="doctor-tag">婦科</span>
+            <span class="doctor-tag">備孕調理</span>
+            <span class="doctor-tag">美容針灸</span>
+          </div>
+          <p>專研中醫婦科十五年，擅長月經調理、備孕、更年期調理與美容針灸，深受女性患者好評。</p>
+          <div class="doctor-hours">🕐 周二、四、六 全天看診</div>
+        </div>
+      </div>
+      <div class="doctor-card">
+        <div class="doctor-top">
+          <div class="doctor-avatar">王</div>
+          <div class="doctor-top-info">
+            <h3>王志明 醫師</h3>
+            <span>主治醫師 · 筋骨推拿</span>
+          </div>
+        </div>
+        <div class="doctor-body">
+          <div class="doctor-tags">
+            <span class="doctor-tag">推拿整復</span>
+            <span class="doctor-tag">運動傷害</span>
+            <span class="doctor-tag">脊椎</span>
+          </div>
+          <p>具骨科推拿與中醫雙重背景，專治運動傷害、職業傷害及脊椎問題，幫助患者快速恢復功能。</p>
+          <div class="doctor-hours">🕐 周一至周五 下午門診</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking" id="booking">
+  <div class="booking-inner">
+    <div class="booking-info">
+      <p class="section-label">線上掛號</p>
+      <h2 class="section-title">隨時掛號<br>LINE 即時確認</h2>
+      <p class="section-desc">填寫掛號資訊後，系統會透過 LINE 自動發送確認通知，您也可在 LINE 上與我們即時互動。</p>
+      <div class="booking-feature">
+        <div class="booking-feature-icon">⚡</div>
+        <div class="booking-feature-text">
+          <h4>即時 LINE 通知確認</h4>
+          <p>掛號完成後 30 秒內收到 LINE 確認訊息</p>
+        </div>
+      </div>
+      <div class="booking-feature">
+        <div class="booking-feature-icon">⏰</div>
+        <div class="booking-feature-text">
+          <h4>看診前提醒推播</h4>
+          <p>看診前一小時自動 LINE 通知提醒</p>
+        </div>
+      </div>
+      <div class="booking-feature">
+        <div class="booking-feature-icon">📋</div>
+        <div class="booking-feature-text">
+          <h4>掛號紀錄隨時查詢</h4>
+          <p>所有掛號與回診紀錄一目了然</p>
+        </div>
+      </div>
+    </div>
+    <div class="booking-form-wrap">
+      <h3>預約掛號</h3>
+      <form id="bookingForm" onsubmit="submitBooking(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>姓名 *</label>
+            <input type="text" placeholder="請輸入姓名" required>
+          </div>
+          <div class="form-group">
+            <label>聯絡電話 *</label>
+            <input type="tel" placeholder="0912-345-678" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>診療項目 *</label>
+          <select required>
+            <option value="">請選擇診療項目</option>
+            <option>針灸治療</option>
+            <option>推拿整復</option>
+            <option>中藥調理</option>
+            <option>美容針灸</option>
+            <option>其他 / 初診諮詢</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>希望看診日期 *</label>
+            <input type="date" required>
+          </div>
+          <div class="form-group">
+            <label>希望時段 *</label>
+            <select required>
+              <option value="">請選擇</option>
+              <option>上午 09:00–12:00</option>
+              <option>下午 14:00–17:30</option>
+              <option>晚間 18:00–21:00</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>主要症狀或備註</label>
+          <textarea placeholder="請簡述主要不適或希望調理的方向（選填）"></textarea>
+        </div>
+        <button type="submit" class="form-submit">確認掛號</button>
+        <p class="form-note"><span class="line-dot"></span> 掛號後將透過 LINE 發送確認通知</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS & LOCATION -->
+<section class="info-section" id="location">
+  <div class="info-inner">
+    <div>
+      <h2 class="hours-title">看診時間</h2>
+      <table class="hours-table">
+        <tr><td>週一</td><td>14:00–17:30 &nbsp;·&nbsp; 18:30–21:00</td></tr>
+        <tr><td>週二</td><td>09:00–12:00 &nbsp;·&nbsp; 14:00–17:30</td></tr>
+        <tr><td>週三</td><td>14:00–17:30 &nbsp;·&nbsp; 18:30–21:00</td></tr>
+        <tr><td>週四</td><td>09:00–12:00 &nbsp;·&nbsp; 14:00–17:30</td></tr>
+        <tr><td>週五</td><td>14:00–17:30 &nbsp;·&nbsp; 18:30–21:00</td></tr>
+        <tr><td>週六</td><td>09:00–12:30</td></tr>
+        <tr><td>週日</td><td class="closed">休診</td></tr>
+      </table>
+    </div>
+    <div>
+      <h2 class="location-title">交通資訊</h2>
+      <div class="location-info">
+        <div class="location-row">
+          <span class="loc-icon">📍</span>
+          <div class="loc-text">
+            <strong>地址</strong>
+            台北市中山區某某路 123 號 2 樓（近捷運中山站 3 號出口）
+          </div>
+        </div>
+        <div class="location-row">
+          <span class="loc-icon">📞</span>
+          <div class="loc-text">
+            <strong>電話</strong>
+            (02) 2345-6789
+          </div>
+        </div>
+        <div class="location-row">
+          <span class="loc-icon">💬</span>
+          <div class="loc-text">
+            <strong>LINE 官方帳號</strong>
+            @renhe.clinic（掛號、諮詢、候診通知）
+          </div>
+        </div>
+      </div>
+      <div class="map-placeholder">🗺 Google Maps 地圖嵌入區塊</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>仁和中醫診所</strong></p>
+  <p>台北市中山區某某路 123 號 &nbsp;·&nbsp; (02) 2345-6789 &nbsp;·&nbsp; LINE: @renhe.clinic</p>
+  <p style="margin-top:12px; font-size:11px;">© 2026 仁和中醫診所. 本頁為示範用 Demo，診所資訊為虛構。</p>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-icon">💬</div>
+  <div>
+    <strong>LINE 通知已發送</strong>
+    <span>掛號確認訊息已傳送至您的 LINE</span>
+  </div>
+</div>
+
+<script>
+  function submitBooking(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = '處理中...';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = '✓ 掛號成功';
+      btn.style.background = '#2D7A2A';
+      showToast();
+      setTimeout(() => {
+        btn.textContent = '確認掛號';
+        btn.style.background = '';
+        btn.disabled = false;
+        e.target.reset();
+      }, 4000);
+    }, 1200);
+  }
+
+  function showToast() {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4500);
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const el = document.querySelector(a.getAttribute('href'));
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  const today = new Date().toISOString().split('T')[0];
+  document.querySelector('input[type="date"]').min = today;
+</script>
+</body>
+</html>
